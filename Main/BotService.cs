@@ -1,9 +1,10 @@
 using System.Threading;
 using System.Threading.Tasks;
+using DiscordUwuBot.UwU;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace DiscordBotTemplate
+namespace DiscordUwuBot.Main
 {
     public class BotService : IHostedService
     {

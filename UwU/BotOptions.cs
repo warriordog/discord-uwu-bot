@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DiscordBotTemplate
+namespace DiscordUwuBot.UwU
 {
     public class BotOptions
     {

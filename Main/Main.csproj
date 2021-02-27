@@ -3,11 +3,20 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>DiscordBotTemplate</RootNamespace>
+        <RootNamespace>DiscordUwuBot.Main</RootNamespace>
+        <AssemblyName>DiscordUwuBot.Main</AssemblyName>
+        <PackageId>DiscordUwuBot.Main</PackageId>
+        <Title>UwU Bot</Title>
+        <Description>UwU!</Description>
+        <PackageProjectUrl>https://github.com/warriordog/discord-uwu-bot</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/warriordog/discord-uwu-bot.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <Company>koehlercode</Company>
+        <Product>UwuBot</Product>
+        <NeutralLanguage>en-US</NeutralLanguage>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="DSharpPlus" Version="4.0.0-rc2" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
       <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
@@ -18,5 +27,9 @@
       <None Update="appsettings.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\UwU\UwU.csproj" />
     </ItemGroup>
 </Project>
