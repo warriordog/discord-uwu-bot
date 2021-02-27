@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -14,7 +14,8 @@
         <Company>koehlercode</Company>
         <Product>UwuBot</Product>
         <NeutralLanguage>en-US</NeutralLanguage>
-    </PropertyGroup>
+      <UserSecretsId>2dd16b44-aebe-42f4-993b-3ae12b261cb3</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
