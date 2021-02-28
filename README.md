@@ -1,14 +1,27 @@
-# DotnetDiscordBotTemplate
-Template project for creating Discord bots with .NET, using the DSharpPlus library. Sample code is completely cross-platform and modular. Use of Jetbrain Rider is recommended, but not required. The code should be fully runnable with Visual Studio, VS Code, or the dotnet CLI.
+# discord-uwu-bot
+Discord bot that UwUifies chat.
+
+### Commands
+* uwu\*this - UwUify a message. Reply to a message with `uwu*this` to get the UwUified version.
 
 ### Requirements
-* .NET 5
+* .NET 5+
+* Windows, Linux, or MacOS. A version of Linux w/ SystemD (such as Ubuntu) is required to use the built-in install script and service definition.
 
 ### Setup
-A few basic setup steps are required in order to run the sample bot. These are:
-1. Register a bot with the [Discord Developer Portal](https://discord.com/developers/docs/intro), and get an auth / access token.
-2. Run `dotnet user-secrets init`.
-3. Run `dotnet user-secrets set "BotOptions:DiscordToken" "INSERT TOKEN HERE"`, using the token from step 1.
 
-### Sample bot
-The sample bot responds to any message containing `bot!` with `Hello, world!`. It will not join any servers on its own, so you will need to invite it to a server in the typical way. Make sure to assign the `bot` scope and request permission to send messages.
+#### Ubuntu / SystemD Linux
+Fod Ubuntu (or other SystemD-based Linux systems), an install script and service definition are provided. This install script will create a service account (default `uwubot`), a working directory (default `/opt/UwuBot`), and a SystemD service (default `uwubot`). This script can update an existing installation and will preserve the `appsettings.Production.json` file containing your Discord token and other configuration values.
+1. Register a bot with the [Discord Developer Portal](https://discord.com/developers/docs/intro), and get an auth / access token.
+2. Build the bot, or download pre-built binaries.
+3. Run `sudo install.sh`.
+4. \[First install only] Edit `/opt/UwuBot/appsettings.Production.json` and add your Discord token from part 1.
+5. Run `sudo systemctl start uwubot` to start the bot.
+
+#### Other OS
+For non-Ubuntu systems, manual setup is required. The steps below are the bare minimum to run the bot, and do not incude steps needed to create a persistent service.
+1. Register a bot with the [Discord Developer Portal](https://discord.com/developers/docs/intro), and get an auth / access token.
+2. Build the bot, or download pre-built binaries.
+3. Copy the files to a safe location.
+4. Edit `appsettings.Production.json` and add your Discord token from part 1.
+5. Run `dotnet DiscordUwuBot.Main.dll` to start the bot.
