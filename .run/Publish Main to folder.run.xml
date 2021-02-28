@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Publish Main to folder" type="DotNetFolderPublish" factoryName="Publish to folder">
-    <riderPublish target_folder="$PROJECT_DIR$/Publish" target_framework="net5.0" uuid_high="2179560560359326179" uuid_low="-6199161534649728090" />
+    <riderPublish target_folder="$PROJECT_DIR$/Publish" target_framework="net5.0" uuid_high="915649734913377723" uuid_low="-6746397539652641945" />
     <method v="2" />
   </configuration>
 </component>

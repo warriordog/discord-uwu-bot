@@ -1,0 +1,13 @@
+[Unit]
+Description=UwU Discord Bot
+After=network.target
+
+[Service]
+Type=exec
+Restart=always
+WorkingDirectory=/opt/UwuBot
+User=uwubot
+ExecStart=/opt/UwuBot/start.sh
+
+[Install]
+WantedBy=multi-user.target
