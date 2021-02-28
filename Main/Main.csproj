@@ -15,6 +15,7 @@
         <Product>UwuBot</Product>
         <NeutralLanguage>en-US</NeutralLanguage>
       <UserSecretsId>2dd16b44-aebe-42f4-993b-3ae12b261cb3</UserSecretsId>
+      <Authors>warriordog</Authors>
   </PropertyGroup>
 
     <ItemGroup>
