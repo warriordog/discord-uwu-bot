@@ -24,13 +24,13 @@ namespace DiscordUwuBot.UwU.command
             _logger = logger;
         }
 
-        [Command("this")]
+        [Command("that")]
         [Description("UwU-ifies a message")]
         [RequireReply]
-        public async Task ThisCommand(CommandContext ctx)
+        public async Task ThatCommand(CommandContext ctx)
         {
             // Setup logging context
-            using (_logger.BeginScope($"ThisCommand@{ctx.Message.Id.ToString()}"))
+            using (_logger.BeginScope($"ThatCommand@{ctx.Message.Id.ToString()}"))
             {
                 try
                 {

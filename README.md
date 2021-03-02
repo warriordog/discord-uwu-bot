@@ -2,7 +2,7 @@
 Discord bot that UwUifies chat.
 
 ### Commands
-* uwu\*this - UwUify a message. Reply to a message with `uwu*this` to get the UwUified version.
+* uwu\*that - UwUify a message. Reply to a message with `uwu*that` to get the UwUified version.
 
 ### Requirements
 * .NET 5+
