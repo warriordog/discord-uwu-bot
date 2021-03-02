@@ -5,22 +5,69 @@ using System.Text.RegularExpressions;
 
 namespace DiscordUwuBot.UwU
 {
+    /// <summary>
+    /// Converts text into UwU-speak
+    /// </summary>
     public interface ITextUwuifier
     {
+        /// <summary>
+        /// Transform a snippet of English text into UwU-speak.
+        /// </summary>
+        /// <remarks>
+        /// The exact rules used to convert text are implementation-specific.
+        /// They should, however, be designed for (or at least support) English inputs.
+        /// Implementations are not required to support non-english text.
+        /// </remarks>
+        /// <example>
+        /// <list type="table">
+        ///     <listheader>
+        ///         <term>Input</term>
+        ///         <term>Output</term>
+        ///     </listheader>
+        ///     <item>
+        ///         <term>Hello, world!</term>
+        ///         <term>Hewlo, wowld! UwU!</term>
+        ///     </item>
+        ///     <item>
+        ///         <term>Lorem ipsum dolar sit amet</term>
+        ///         <term>Lowem ipsum dolaw sit amet UwU!</term>
+        ///     </item>
+        /// </list>
+        /// </example>
+        /// <param name="text">Text to transform</param>
+        /// <returns>Text translated to UwU</returns>
         public string UwuifyText(string text);
     }
 
-    public record StringReplacement(Regex MatchRegex, MatchEvaluator MatchReplacer);
+    /// <summary>
+    /// A conditional text transformation.
+    /// If <see cref="MatchRegex"/> matches, then <see cref="MatchReplacer"/> is called to transform the matched substring. 
+    /// </summary>
+    public record TextTransformation(Regex MatchRegex, MatchEvaluator MatchReplacer);
     
+    /// <summary>
+    /// Default implementation of <see cref="ITextUwuifier"/>
+    /// </summary>
     public class TextUwuifier : ITextUwuifier
     {
-        public IEnumerable<StringReplacement> UwuReplacements { get; }
+        /// <summary>
+        /// Collection of <see cref="TextTransformation"/> that are applied to transform English text into UwU-speak.
+        /// </summary>
+        public IEnumerable<TextTransformation> UwuReplacements { get; }
 
-        public TextUwuifier(IEnumerable<StringReplacement> uwuReplacements)
+        /// <summary>
+        /// Create a new TextUwuifier with a custom set of transformations.
+        /// </summary>
+        /// <param name="uwuReplacements">Custom set of text transformations to use with this instance</param>
+        public TextUwuifier(IEnumerable<TextTransformation> uwuReplacements)
         {
             UwuReplacements = uwuReplacements;
         }
 
+        /// <summary>
+        /// Create a new TextUwuifier with the default transformations.
+        /// Default transformations are provided by <see cref="GetDefaultUwuReplacements"/>.
+        /// </summary>
         public TextUwuifier()
         {
             UwuReplacements = GetDefaultUwuReplacements();
@@ -59,9 +106,26 @@ namespace DiscordUwuBot.UwU
         private const RegexOptions RegexCI = RegexOptions.Compiled | RegexOptions.IgnoreCase;
         private static readonly TimeSpan DefaultTimeout = new TimeSpan(0, 0, 0, 0, 50);
         
-        private static IEnumerable<StringReplacement> GetDefaultUwuReplacements()
+        /// <summary>
+        /// Gets the set of default text transformations that convert English to UwU-speak.
+        /// </summary>
+        /// <remarks>
+        /// The default transformations are:
+        /// <list type="bullet">
+        ///     <item><description>ll => wl</description></item>
+        ///     <item><description>r => w</description></item>
+        ///     <item><description>th => dw</description></item>
+        ///     <item><description>n(vowel) => ny(vowel)</description></item>
+        ///     <item><description>f(vowel) => w(vowel)</description></item>
+        ///     <item><description>(vowel)d => (vowel)wd</description></item>
+        ///     <item><description>fuck|bitch|shit => fwuck|bwitch|shwit</description></item>
+        ///     <item><description>damn => dyamn</description></item>
+        /// </list>
+        /// </remarks>
+        /// <returns>The collection of <see cref="TextTransformation"/> that implement the default transformation logic.</returns>
+        public static IEnumerable<TextTransformation> GetDefaultUwuReplacements()
         {
-            return new StringReplacement[] {
+            return new TextTransformation[] {
                 new(new Regex("ll",  RegexCI, DefaultTimeout), m => MatchCase(m.Value, "wl")),
                 new(new Regex("r",  RegexCI, DefaultTimeout), m => MatchCase(m.Value, "w")),
                 new(new Regex("th", RegexCI, DefaultTimeout), m => MatchCase(m.Value, "dw")),

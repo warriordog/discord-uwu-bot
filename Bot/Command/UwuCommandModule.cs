@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DiscordUwuBot.Bot.Command
 {
+    /// <summary>
+    /// Implements DSharpPlus command handlers for all uwu* commands
+    /// </summary>
     public class UwuCommandModule : BaseCommandModule
     {
         private readonly ILogger<UwuCommandModule> _logger;
@@ -19,7 +22,7 @@ namespace DiscordUwuBot.Bot.Command
             _logger = logger;
             _textUwuifier = textUwuifier;
         }
-
+        
         [Command("this")]
         [Description("Uwuifies text")]
         public async Task ThisCommand(CommandContext ctx, [Description("Text to uwuify")][RemainingText] string text)

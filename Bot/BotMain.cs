@@ -8,6 +8,9 @@ using Microsoft.Extensions.Options;
 
 namespace DiscordUwuBot.Bot
 {
+    /// <summary>
+    /// Main class for the bot
+    /// </summary>
     public class BotMain
     {
         private readonly DiscordClient        _discord;
