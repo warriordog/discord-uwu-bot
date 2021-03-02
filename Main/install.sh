@@ -42,7 +42,7 @@ chmod ug+x "$BOT_DIR/start.sh"
 # Deploy default config if not exist
 if [ ! -f "$BOT_DIR/appsettings.Production.json" ]; then
     mv "$BOT_BIN_DIR/appsettings.Production.json" "$BOT_DIR/appsettings.Production.json"
-    echo Default configuration deployed - you must add your Discord token to "$BOT_DIR/appsettings.Production.json".
+    echo Default configuration deployed - you must add your Discord token to \"$BOT_DIR/appsettings.Production.json\".
 fi
 
 # Set permissions
@@ -56,4 +56,4 @@ systemctl -q daemon-reload
 systemctl -q enable $BOT_SERVICE
 
 # Success
-echo UwU Bot has been installed. Start it with "systemctl start $BOT_SERVICE".
+echo UwU Bot has been installed. Start it with \"systemctl start $BOT_SERVICE\".
