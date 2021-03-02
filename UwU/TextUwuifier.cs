@@ -14,8 +14,15 @@ namespace DiscordUwuBot.UwU
     
     public class TextUwuifier : ITextUwuifier
     {
-        public IEnumerable<StringReplacement> UwuReplacements { get; init; } = GetDefaultUwuReplacements();
+        public IEnumerable<StringReplacement> UwuReplacements { get; }
 
+        public TextUwuifier(IEnumerable<StringReplacement> uwuReplacements)
+        {
+            UwuReplacements = uwuReplacements;
+        }
+        
+        public TextUwuifier() : this(GetDefaultUwuReplacements()) {}
+        
         public string UwuifyText(string text)
         {
             foreach (var replacement in UwuReplacements)
