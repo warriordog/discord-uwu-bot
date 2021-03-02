@@ -103,8 +103,15 @@ namespace DiscordUwuBot.UwU
             return resultBuilder.ToString();
         }
         
+        /// <summary>
+        /// Combined RegexOptions for Compiled and Case-insensitive.
+        /// </summary>
         private const RegexOptions RegexCI = RegexOptions.Compiled | RegexOptions.IgnoreCase;
-        private static readonly TimeSpan DefaultTimeout = new TimeSpan(0, 0, 0, 0, 50);
+        
+        /// <summary>
+        /// Default timeout for matching regular expressions.
+        /// </summary>
+        private static readonly TimeSpan DefaultTimeout = new TimeSpan(0, 0, 0, 0, 25);
         
         /// <summary>
         /// Gets the set of default text transformations that convert English to UwU-speak.
