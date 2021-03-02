@@ -1,13 +1,12 @@
 using System;
-using System.Reflection;
 using System.Threading.Tasks;
-using DiscordUwuBot.UwU.command;
+using DiscordUwuBot.Bot.Command;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace DiscordUwuBot.UwU
+namespace DiscordUwuBot.Bot
 {
     public class BotMain
     {

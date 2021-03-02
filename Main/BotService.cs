@@ -1,6 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using DiscordUwuBot.UwU;
+using DiscordUwuBot.Bot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 

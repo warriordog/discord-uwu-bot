@@ -4,6 +4,8 @@ Project("{77A0F032-D4EE-4EF2-9C2C-273BEBDEB3B1}") = "DiscordUwuBot", "Main\Main.
 EndProject
 Project("{77A0F032-D4EE-4EF2-9C2C-273BEBDEB3B1}") = "UwU", "UwU\UwU.csproj", "{89116018-4F79-4743-B97D-2D05DF01F29E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bot", "Bot\Bot.csproj", "{C4512CEE-3198-4B2C-B5E5-B54108070B05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{89116018-4F79-4743-B97D-2D05DF01F29E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89116018-4F79-4743-B97D-2D05DF01F29E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89116018-4F79-4743-B97D-2D05DF01F29E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4512CEE-3198-4B2C-B5E5-B54108070B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4512CEE-3198-4B2C-B5E5-B54108070B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4512CEE-3198-4B2C-B5E5-B54108070B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4512CEE-3198-4B2C-B5E5-B54108070B05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

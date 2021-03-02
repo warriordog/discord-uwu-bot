@@ -6,7 +6,7 @@
         <RootNamespace>DiscordUwuBot.Main</RootNamespace>
         <AssemblyName>DiscordUwuBot.Main</AssemblyName>
         <PackageId>DiscordUwuBot.Main</PackageId>
-        <Title>UwU Bot</Title>
+        <Title>DiscordUwuBot main (startup) module</Title>
         <Description>UwU!</Description>
         <PackageProjectUrl>https://github.com/warriordog/discord-uwu-bot</PackageProjectUrl>
         <RepositoryUrl>https://github.com/warriordog/discord-uwu-bot.git</RepositoryUrl>
@@ -47,6 +47,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Bot\Bot.csproj" />
       <ProjectReference Include="..\UwU\UwU.csproj" />
     </ItemGroup>
 </Project>

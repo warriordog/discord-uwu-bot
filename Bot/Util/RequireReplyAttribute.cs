@@ -3,7 +3,7 @@ using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 
-namespace DiscordUwuBot.UwU.util
+namespace DiscordUwuBot.Bot.Util
 {
     /// <summary>
     /// Restrict a command to only be invokable in replies to another message

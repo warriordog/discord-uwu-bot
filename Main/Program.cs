@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using DiscordUwuBot.Bot;
 using DiscordUwuBot.UwU;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,7 +28,10 @@ namespace DiscordUwuBot.Main
                             .Bind(ctx.Configuration.GetSection(nameof(BotOptions)))
                             .ValidateDataAnnotations();
 
-                        // Inject main app logic
+                        // Inject UwU logic
+                        services.AddSingleton<ITextUwuifier, TextUwuifier>();
+                        
+                        // Inject discord bot logic
                         services.AddScoped<BotMain>();
                         services.AddHostedService<BotService>();
                     }
