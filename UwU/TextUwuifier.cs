@@ -14,8 +14,6 @@ namespace DiscordUwuBot.UwU
     
     public class TextUwuifier : ITextUwuifier
     {
-        private const RegexOptions RegexCI = RegexOptions.Compiled | RegexOptions.IgnoreCase;
-
         public IEnumerable<StringReplacement> UwuReplacements { get; init; } = GetDefaultUwuReplacements();
 
         public string UwuifyText(string text)
@@ -29,55 +27,6 @@ namespace DiscordUwuBot.UwU
             return text;
         }
         
-        private static IEnumerable<StringReplacement> GetDefaultUwuReplacements()
-        {
-            return new StringReplacement[] {
-                new(new Regex("ll",  RegexCI), m => MatchCase(m.Value, "wl")),
-                new(new Regex("r",  RegexCI), m => MatchCase(m.Value, "w")),
-                new(new Regex("th", RegexCI), m => MatchCase(m.Value, "dw")),
-                new(
-                    new Regex("(n)([aeiou])", RegexCI), m =>
-                    {
-                        var letter = m.Groups[1].Value;
-                        var vowel =  m.Groups[2].Value;
-                        return letter + MatchCase(vowel, "y") + vowel;
-                    }
-                ),
-                new (
-                    new Regex("(f)([aeiou])", RegexCI), m =>
-                    {
-                        var letter = m.Groups[1].Value;
-                        var vowel =  m.Groups[2].Value;
-                        return letter + MatchCase(vowel, "w") + vowel;
-                    }
-                ),
-                new (
-                    new Regex("([aeiou])(d)", RegexCI), m =>
-                    {
-                        var vowel =  m.Groups[1].Value;
-                        var letter = m.Groups[2].Value;
-                        return vowel + MatchCase(letter, "w") + letter;
-                    }
-                ),
-                new(
-                    new Regex("(f|b|sh)(uck|itch|it)", RegexCI), m =>
-                    {
-                        var start =  m.Groups[1].Value;
-                        var end = m.Groups[2].Value;
-                        return start + MatchCase(end, "w") + end;
-                    }
-                ),
-                new(
-                    new Regex("(d)(amn)", RegexCI), m =>
-                    {
-                        var start =  m.Groups[1].Value;
-                        var end = m.Groups[2].Value;
-                        return start + MatchCase(end, "y") + end;
-                    }
-                )
-            };
-        }
-
         private static string MatchCase(string casePattern, string textPattern)
         {
             var matchLength = Math.Min(casePattern.Length, textPattern.Length);
@@ -95,6 +44,58 @@ namespace DiscordUwuBot.UwU
             }
 
             return resultBuilder.ToString();
+        }
+        
+        private const RegexOptions RegexCI = RegexOptions.Compiled | RegexOptions.IgnoreCase;
+        private static readonly TimeSpan DefaultTimeout = new TimeSpan(0, 0, 0, 0, 50);
+        
+        private static IEnumerable<StringReplacement> GetDefaultUwuReplacements()
+        {
+            return new StringReplacement[] {
+                new(new Regex("ll",  RegexCI, DefaultTimeout), m => MatchCase(m.Value, "wl")),
+                new(new Regex("r",  RegexCI, DefaultTimeout), m => MatchCase(m.Value, "w")),
+                new(new Regex("th", RegexCI, DefaultTimeout), m => MatchCase(m.Value, "dw")),
+                new(
+                    new Regex("(n)([aeiou])", RegexCI, DefaultTimeout), m =>
+                    {
+                        var letter = m.Groups[1].Value;
+                        var vowel =  m.Groups[2].Value;
+                        return letter + MatchCase(vowel, "y") + vowel;
+                    }
+                ),
+                new (
+                    new Regex("(f)([aeiou])", RegexCI, DefaultTimeout), m =>
+                    {
+                        var letter = m.Groups[1].Value;
+                        var vowel =  m.Groups[2].Value;
+                        return letter + MatchCase(vowel, "w") + vowel;
+                    }
+                ),
+                new (
+                    new Regex("([aeiou])(d)", RegexCI, DefaultTimeout), m =>
+                    {
+                        var vowel =  m.Groups[1].Value;
+                        var letter = m.Groups[2].Value;
+                        return vowel + MatchCase(letter, "w") + letter;
+                    }
+                ),
+                new(
+                    new Regex("(f|b|sh)(uck|itch|it)", RegexCI, DefaultTimeout), m =>
+                    {
+                        var start =  m.Groups[1].Value;
+                        var end = m.Groups[2].Value;
+                        return start + MatchCase(end, "w") + end;
+                    }
+                ),
+                new(
+                    new Regex("(d)(amn)", RegexCI, DefaultTimeout), m =>
+                    {
+                        var start =  m.Groups[1].Value;
+                        var end = m.Groups[2].Value;
+                        return start + MatchCase(end, "y") + end;
+                    }
+                )
+            };
         }
     }
 }
