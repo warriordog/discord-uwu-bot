@@ -17,26 +17,29 @@ namespace DiscordUwuBot.Main
             await host.RunAsync();
         }
 
-        private static IHost CreateHost(string[] args)
-        {
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureServices(
-                    (ctx, services) =>
-                    {
-                        // Inject config
-                        services.AddOptions<BotOptions>()
-                            .Bind(ctx.Configuration.GetSection(nameof(BotOptions)))
-                            .ValidateDataAnnotations();
+        private static IHost CreateHost(string[] args) =>
+            // Apply default host settings
+            Host.CreateDefaultBuilder(args)
+                
+            // Configure DI
+            .ConfigureServices(
+                (ctx, services) =>
+                {
+                    // Inject config
+                    services.AddOptions<BotOptions>()
+                        .Bind(ctx.Configuration.GetSection(nameof(BotOptions)))
+                        .ValidateDataAnnotations();
 
-                        // Inject UwU logic
-                        services.AddSingleton<ITextUwuifier, TextUwuifier>();
+                    // Inject UwU logic (this is needed to make sure that the constructor is called)
+                    services.AddSingleton<ITextUwuifier>(_ => new TextUwuifier());
                         
-                        // Inject discord bot logic
-                        services.AddScoped<BotMain>();
-                        services.AddHostedService<BotService>();
-                    }
-                )
-                .Build();
-        }
+                    // Inject discord bot logic
+                    services.AddScoped<BotMain>();
+                    services.AddHostedService<BotService>();
+                }
+            )
+            
+            // Create the host
+            .Build();
     }
 }

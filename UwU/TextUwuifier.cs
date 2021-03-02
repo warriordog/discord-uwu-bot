@@ -20,8 +20,11 @@ namespace DiscordUwuBot.UwU
         {
             UwuReplacements = uwuReplacements;
         }
-        
-        public TextUwuifier() : this(GetDefaultUwuReplacements()) {}
+
+        public TextUwuifier()
+        {
+            UwuReplacements = GetDefaultUwuReplacements();
+        }
         
         public string UwuifyText(string text)
         {
