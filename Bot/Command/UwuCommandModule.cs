@@ -4,7 +4,6 @@ using DiscordUwuBot.Bot.Util;
 using DiscordUwuBot.UwU;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace DiscordUwuBot.Bot.Command
@@ -99,27 +98,18 @@ namespace DiscordUwuBot.Bot.Command
         private static bool IsMessageLoop(CommandContext ctx)
         {
             var currentUser = ctx.Client.CurrentUser;
-            
-            bool IsMessageLoopAt(DiscordMessage currentMessage)
+
+            for (var currentMessage = ctx.Message; currentMessage != null; currentMessage = currentMessage.Reference?.Message)
             {
                 // If we sent the message, then this is a loop
                 if (currentUser.Equals(currentMessage.Author))
                 {
                     return true;
                 }
-            
-                // If we didn't send the message, and it is the last one, then this is not a loop
-                var currentMessageRef = currentMessage.Reference?.Message;
-                if (currentMessageRef == null || currentMessageRef.Equals(currentMessage))
-                {
-                    return false;
-                }
-            
-                // If we didn't send the message, but its not the last one, then we need to recurse
-                return IsMessageLoopAt(currentMessageRef);
             }
-            
-            return IsMessageLoopAt(ctx.Message);
+
+            // If we get to the end without a match, then this is not a loop
+            return false;
         }
     }
 }
