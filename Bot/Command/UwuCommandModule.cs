@@ -20,8 +20,39 @@ namespace DiscordUwuBot.Bot.Command
             _textUwuifier = textUwuifier;
         }
 
+        [Command("this")]
+        [Description("Uwuifies text")]
+        public async Task ThisCommand(CommandContext ctx, [Description("Text to uwuify")][RemainingText] string text)
+        {
+            // Setup logging context
+            using (_logger.BeginScope($"ThisCommand@{ctx.Message.Id.ToString()}"))
+            {
+                try
+                {
+                    _logger.LogDebug("Invoked by [{user}]", ctx.User);
+                    
+                    // Skip if no text provided
+                    if (string.IsNullOrWhiteSpace(text))
+                    {
+                        _logger.LogDebug("Skipping empty input");
+                        return;
+                    }
+                    
+                    // Uwuify it
+                    var uwuText = _textUwuifier.UwuifyText(text);
+
+                    // Send reply
+                    await ctx.RespondAsync(uwuText);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Uncaught exception");
+                }
+            }
+        }
+
         [Command("that")]
-        [Description("UwU-ifies a message")]
+        [Description("Uwuifies a message in chat")]
         [RequireReply]
         public async Task ThatCommand(CommandContext ctx)
         {
@@ -35,18 +66,25 @@ namespace DiscordUwuBot.Bot.Command
                     // Prevent infinite loops
                     if (IsMessageLoop(ctx))
                     {
+                        _logger.LogDebug("Skipping empty input");
                         _logger.LogDebug("Skipping message loop");
                         return;
                     }
                     
                     // Get original message from reference
-                    var originalMessage = ctx.Message.ReferencedMessage.Content;
+                    var text = ctx.Message.ReferencedMessage.Content;
                     
-                    // Uwu-ify it
-                    var uwuMessage = _textUwuifier.UwuifyText(originalMessage);
+                    // Skip if no text provided
+                    if (string.IsNullOrWhiteSpace(text))
+                    {
+                        return;
+                    }
+                    
+                    // Uwuify it
+                    var uwuText = _textUwuifier.UwuifyText(text);
 
                     // Send reply
-                    await ctx.RespondAsync(uwuMessage);
+                    await ctx.RespondAsync(uwuText);
                 }
                 catch (Exception ex)
                 {

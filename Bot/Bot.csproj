@@ -7,6 +7,7 @@
         <PackageId>DiscordUwuBot.Bot</PackageId>
         <Title>DiscordUwuBot Discord Bot module</Title>
         <Authors />
+        <PackageVersion>1.1.0</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>

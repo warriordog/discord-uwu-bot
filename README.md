@@ -1,8 +1,9 @@
 # discord-uwu-bot
-Discord bot that UwUifies chat.
+Discord bot that converts regular English into UwU-speak.
 
 ### Commands
-* uwu\*that - UwUify a message. Reply to a message with `uwu*that` to get the UwUified version.
+* `uwu*that` - Uwuify a message in chat. Reply to a message to uwuifiy it.
+* `uwu*this` - Uwuify text. The rest of the message will be uwuified.
 
 ### Requirements
 * .NET 5+

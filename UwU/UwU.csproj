@@ -7,6 +7,7 @@
         <PackageId>DiscordUwuBot.UwU</PackageId>
         <Title>DiscordUwuBot UwU (logic) module</Title>
         <Description>UwU!</Description>
+        <PackageVersion>1.1.0</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
