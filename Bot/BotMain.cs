@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using DiscordUwuBot.Bot.Command;
 using DSharpPlus;
@@ -8,6 +10,19 @@ using Microsoft.Extensions.Options;
 
 namespace DiscordUwuBot.Bot
 {
+    /// <summary>
+    /// Configuration options for the bot
+    /// </summary>
+    public class BotOptions
+    {
+        /// <summary>
+        /// Discord API authentication token
+        /// </summary>
+        [Required]
+        [NotNull]
+        public string DiscordToken { get; set; }
+    }
+    
     /// <summary>
     /// Main class for the bot
     /// </summary>

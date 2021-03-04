@@ -31,7 +31,8 @@ namespace DiscordUwuBot.Main
                         .ValidateDataAnnotations();
 
                     // Inject UwU logic (this is needed to make sure that the constructor is called)
-                    services.AddSingleton<ITextUwuifier>(_ => new TextUwuifier());
+                    services.AddScoped<IUwuRules, UwuRules>();
+                    services.AddScoped<ITextUwuifier, TextUwuifier>();
                         
                     // Inject discord bot logic
                     services.AddScoped<BotMain>();
