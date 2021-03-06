@@ -42,7 +42,8 @@ namespace DiscordUwuBot.Bot
                 {
                     Token = options.DiscordToken,
                     TokenType = TokenType.Bot,
-                    LoggerFactory = loggerFactory
+                    LoggerFactory = loggerFactory,
+                    Intents = DiscordIntents.DirectMessages | DiscordIntents.GuildMessages | DiscordIntents.Guilds
                 }
             );
 
