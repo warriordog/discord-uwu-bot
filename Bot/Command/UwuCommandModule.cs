@@ -83,6 +83,7 @@ namespace DiscordUwuBot.Bot.Command
                     // Skip if no text provided
                     if (string.IsNullOrWhiteSpace(text))
                     {
+                        _logger.LogDebug("Skipping empty input");
                         return;
                     }
                     
