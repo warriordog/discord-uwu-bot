@@ -4,6 +4,7 @@ using DiscordUwuBot.Bot.Util;
 using DiscordUwuBot.UwU;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace DiscordUwuBot.Bot.Command
@@ -44,7 +45,10 @@ namespace DiscordUwuBot.Bot.Command
                     var uwuText = _textUwuifier.UwuifyText(text);
 
                     // Send reply
-                    await ctx.RespondAsync(uwuText);
+                    await new DiscordMessageBuilder()
+                        .WithContent(uwuText)
+                        .WithReply(ctx.Message.Id)
+                        .SendAsync(ctx.Channel);
                 }
                 catch (Exception ex)
                 {
@@ -86,7 +90,10 @@ namespace DiscordUwuBot.Bot.Command
                     var uwuText = _textUwuifier.UwuifyText(text);
 
                     // Send reply
-                    await ctx.RespondAsync(uwuText);
+                    await new DiscordMessageBuilder()
+                        .WithContent(uwuText)
+                        .WithReply(ctx.Message.ReferencedMessage.Id)
+                        .SendAsync(ctx.Channel);
                 }
                 catch (Exception ex)
                 {
