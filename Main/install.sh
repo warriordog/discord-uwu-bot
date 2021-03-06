@@ -1,11 +1,24 @@
 #!/bin/bash
 
-# Define variables
+# Service account name (must match the value in service definition)
 BOT_USER="uwubot"
-BOT_DIR="/opt/UwuBot"
-BOT_BIN_DIR="$BOT_DIR/bin"
+
+# SystemD service name (must match name of service definition)
 BOT_SERVICE="uwubot"
-BOT_SERVICE_SOURCE="$BOT_SERVICE.service"
+
+# Installation path (must match value in service definition)
+BOT_DIR="/opt/UwuBot"
+
+# -----------------------------------------
+# Do not change anything beyond this point
+# unless you know what you're doing!
+# -----------------------------------------
+
+# Compute paths and names
+SOURCE_DIR="."
+SOURCE_SERVICE_DIR="./SystemD"
+BOT_BIN_DIR="$BOT_DIR/bin"
+BOT_SERVICE_SOURCE="$SOURCE_SERVICE_DIR/$BOT_SERVICE.service"
 BOT_SERVICE_TARGET="/etc/systemd/system/$BOT_SERVICE.service"
 
 # Stop service if running
@@ -20,23 +33,25 @@ if ! id -u $BOT_USER > /dev/null 2>&1; then
 fi
 
 # Delete bot binaries
-if [ -d "$BOT_BIN_DIR/" ]; then
+if [ -d "$BOT_BIN_DIR"/ ]; then
     rm -rf "$BOT_BIN_DIR"
 fi
 
 # Create bot directories if missing
-if [ ! -d "$BOT_DIR/" ]; then
-    mkdir "$BOT_DIR/" 
+if [ ! -d "$BOT_DIR"/ ]; then
+    mkdir "$BOT_DIR"/
 fi
-if [ ! -d "$BOT_BIN_DIR/" ]; then
-    mkdir "$BOT_BIN_DIR/"
+if [ ! -d "$BOT_BIN_DIR"/ ]; then
+    mkdir "$BOT_BIN_DIR"/
 fi
 
 # Install bot files
-cp -rf * "$BOT_BIN_DIR/"
+cp -rf "$SOURCE_DIR"/* "$BOT_BIN_DIR"/
 rm -f "$BOT_BIN_DIR/appsettings.Development.json"
 mv "$BOT_BIN_DIR/appsettings.json" "$BOT_DIR/appsettings.json"
-mv "$BOT_BIN_DIR/start.sh" "$BOT_DIR/start.sh"
+
+# Install start script
+cp -rf "$SOURCE_SERVICE_DIR/start.sh" "$BOT_DIR/start.sh"
 chmod ug+x "$BOT_DIR/start.sh"
 
 # Deploy default config if not exist

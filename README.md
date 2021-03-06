@@ -27,7 +27,7 @@ Before you can run discord-uwu-bot, you need a Discord API Token. You can get th
 #### Ubuntu / SystemD Linux
 For Ubuntu (or other SystemD-based Linux systems), an install script and service definition are provided. This install script will create a service account (default `uwubot`), a working directory (default `/opt/UwuBot`), and a SystemD service (default `uwubot`). This script can update an existing installation and will preserve the `appsettings.Production.json` file containing your Discord Token and other configuration values.
 1. Compile the bot or download pre-built binaries.
-2. Run `sudo install.sh`.
+2. Run `sudo ./install.sh`.
 3. \[First install only] Edit `/opt/UwuBot/appsettings.Production.json` and add your Discord token.
 4. Run `sudo systemctl start uwubot` to start the bot.
 
