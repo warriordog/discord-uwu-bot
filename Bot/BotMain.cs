@@ -20,7 +20,7 @@ namespace DiscordUwuBot.Bot
         /// </summary>
         [Required]
         [NotNull]
-        public string DiscordToken { get; set; }
+        public string DiscordToken { get; init; }
     }
     
     /// <summary>
@@ -55,6 +55,13 @@ namespace DiscordUwuBot.Bot
                     }
                 )
                 .RegisterCommands<UwuCommandModule>();
+            
+            // Log when bot joins a server.
+            _discord.GuildCreated += (d, e) =>
+            {
+                _logger.LogInformation($"Joined server {e.Guild.Id} ({e.Guild.Name})");
+                return Task.CompletedTask;
+            };
         }
 
         public async Task StartAsync()
