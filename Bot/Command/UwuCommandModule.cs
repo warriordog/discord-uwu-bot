@@ -72,7 +72,6 @@ namespace DiscordUwuBot.Bot.Command
                     // Prevent infinite loops
                     if (IsMessageLoop(ctx))
                     {
-                        _logger.LogDebug("Skipping empty input");
                         _logger.LogDebug("Skipping message loop");
                         return;
                     }
