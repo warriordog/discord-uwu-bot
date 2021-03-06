@@ -29,6 +29,9 @@ namespace DiscordUwuBot.Main
                     services.AddOptions<BotOptions>()
                         .Bind(ctx.Configuration.GetSection(nameof(BotOptions)))
                         .ValidateDataAnnotations();
+                    services.AddOptions<UwuOptions>()
+                        .Bind(ctx.Configuration.GetSection(nameof(UwuOptions)))
+                        .ValidateDataAnnotations();
 
                     // Inject UwU logic (this is needed to make sure that the constructor is called)
                     services.AddScoped<IUwuRules, UwuRules>();

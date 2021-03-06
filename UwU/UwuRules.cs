@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Options;
 
 namespace DiscordUwuBot.UwU
 {
@@ -23,6 +24,22 @@ namespace DiscordUwuBot.UwU
     }
 
     /// <summary>
+    /// Settings to configure the UwU translation.
+    /// </summary>
+    public class UwuOptions
+    {
+        /// <summary>
+        /// If true (default), append a trailing "UwU!" to the text.
+        /// </summary>
+        public bool AppendUwu { get; init; } = true;
+        
+        /// <summary>
+        /// If true (default), make curse words cuter.
+        /// </summary>
+        public bool MakeCuteCurses { get; init; } = true;
+    }
+    
+    /// <summary>
     /// Default implementation of UwU rules
     /// </summary>
     public class UwuRules : IUwuRules
@@ -30,12 +47,12 @@ namespace DiscordUwuBot.UwU
         public IEnumerable<TextTransformation> UwuTransformations { get; }
 
         /// <summary>
-        /// Create a new TextUwuifier with the default transformations.
-        /// Default transformations are provided by <see cref="BuildUwuTransformations"/>.
+        /// Create a new TextUwuifier.
+        /// The provided UwuRulesOptions will be used to configure the UwU translation logic.
         /// </summary>
-        public UwuRules()
+        public UwuRules(IOptions<UwuOptions> uwuRulesOptions)
         {
-            UwuTransformations = BuildUwuTransformations();
+            UwuTransformations = BuildUwuTransformations(uwuRulesOptions.Value);
         }
 
         /// <summary>
@@ -66,67 +83,86 @@ namespace DiscordUwuBot.UwU
 
             return resultBuilder.ToString();
         }
-        
-        public static IEnumerable<TextTransformation> BuildUwuTransformations() => new TextTransformation[] {
-            // Replace "ll" with "wl"
-            new(new Regex(@"ll", RegexCI, DefaultTimeout), m => MatchCase(m.Value, "wl")),
 
-            // Replace "r" with "w"
-            new(new Regex(@"r", RegexCI, DefaultTimeout), m => MatchCase(m.Value, "w")),
+        private static IEnumerable<TextTransformation> BuildUwuTransformations(UwuOptions uwuOptions)
+        {
+            // Initialize the rules with defaults
+            var transformations = new List<TextTransformation>()
+            {
+                // Replace "ll" with "wl"
+                new(new Regex(@"ll", RegexCI, DefaultTimeout), m => MatchCase(m.Value, "wl")),
 
-            // Replace "th" with "dw"
-            new(new Regex(@"th", RegexCI, DefaultTimeout), m => MatchCase(m.Value, "dw")),
+                // Replace "r" with "w"
+                new(new Regex(@"r", RegexCI, DefaultTimeout), m => MatchCase(m.Value, "w")),
 
-            // Insert a "y" between "n" and vowels
-            new(
-                new Regex(@"(n)([aeiou])", RegexCI, DefaultTimeout), m =>
-                {
-                    var letter = m.Groups[1].Value;
-                    var vowel = m.Groups[2].Value;
-                    return letter + MatchCase(vowel, "y") + vowel;
-                }
-            ),
+                // Replace "th" with "dw"
+                new(new Regex(@"th", RegexCI, DefaultTimeout), m => MatchCase(m.Value, "dw")),
 
-            // Insert a "w" between "f" and vowels
-            new(
-                new Regex(@"(f)([aeiou])", RegexCI, DefaultTimeout), m =>
-                {
-                    var letter = m.Groups[1].Value;
-                    var vowel = m.Groups[2].Value;
-                    return letter + MatchCase(vowel, "w") + vowel;
-                }
-            ),
+                // Insert a "y" between "n" and vowels
+                new(
+                    new Regex(@"(n)([aeiou])", RegexCI, DefaultTimeout), m =>
+                    {
+                        var letter = m.Groups[1].Value;
+                        var vowel = m.Groups[2].Value;
+                        return letter + MatchCase(vowel, "y") + vowel;
+                    }
+                ),
 
-            // Insert a "w" between vowels and "d"
-            new(
-                new Regex(@"([aeiou])(d)", RegexCI, DefaultTimeout), m =>
-                {
-                    var vowel = m.Groups[1].Value;
-                    var letter = m.Groups[2].Value;
-                    return vowel + MatchCase(letter, "w") + letter;
-                }
-            ),
+                // Insert a "w" between "f" and vowels
+                new(
+                    new Regex(@"(f)([aeiou])", RegexCI, DefaultTimeout), m =>
+                    {
+                        var letter = m.Groups[1].Value;
+                        var vowel = m.Groups[2].Value;
+                        return letter + MatchCase(vowel, "w") + vowel;
+                    }
+                ),
 
-            // Make curse words cuter
-            new(
-                new Regex(@"(f|b|sh)(uck|itch|it)", RegexCI, DefaultTimeout), m =>
-                {
-                    var start = m.Groups[1].Value;
-                    var end = m.Groups[2].Value;
-                    return start + MatchCase(end, "w") + end;
-                }
-            ),
-            new(
-                new Regex(@"(d)(amn)", RegexCI, DefaultTimeout), m =>
-                {
-                    var start = m.Groups[1].Value;
-                    var end = m.Groups[2].Value;
-                    return start + MatchCase(end, "y") + end;
-                }
-            ),
+                // Insert a "w" between vowels and "d"
+                new(
+                    new Regex(@"([aeiou])(d)", RegexCI, DefaultTimeout), m =>
+                    {
+                        var vowel = m.Groups[1].Value;
+                        var letter = m.Groups[2].Value;
+                        return vowel + MatchCase(letter, "w") + letter;
+                    }
+                ),
+            };
 
-            // Add trailing UwU
-            new(new Regex(@"$", RegexOptions.Compiled, DefaultTimeout), _ => " UwU!")
-        };
+
+            // Make curse words cuter, if enabled
+            if (uwuOptions.MakeCuteCurses)
+            {
+                transformations.Add(
+                    new TextTransformation(
+                        new Regex(@"(f|b|sh)(uck|itch|it)", RegexCI, DefaultTimeout), m =>
+                        {
+                            var start = m.Groups[1].Value;
+                            var end = m.Groups[2].Value;
+                            return start + MatchCase(end, "w") + end;
+                        }
+                    )
+                );
+
+                transformations.Add(
+                    new TextTransformation(
+                        new Regex(@"(d)(amn)", RegexCI, DefaultTimeout), m =>
+                        {
+                            var start = m.Groups[1].Value;
+                            var end = m.Groups[2].Value;
+                            return start + MatchCase(end, "y") + end;
+                        }
+                    )
+                );
+            }
+
+            // Add trailing UwU, if enabled
+            if (uwuOptions.AppendUwu)
+            {
+                transformations.Add(new TextTransformation(new Regex(@"$", RegexOptions.Compiled, DefaultTimeout), _ => " UwU!"));
+            }
+
+            return transformations;
+        }
     }
 }

@@ -12,6 +12,29 @@ A Discord bot that translates regular text into UwU-speak.
 * `uwu*that` - Uwuify a message in chat. Reply to a message to uwuifiy it.
 * `uwu*this` - Uwuify text. The rest of the message will be uwuified.
 
+### Configuration
+The bot can be configured through a JSON configuration file, located at `/opt/UwuBot/appsettings.Production.json` by default.
+You must add your Discord token here before using the bot.
+If you are using the the install script, then a default configuration file will be provided for you.
+To create a configuration file manually, start with this template:
+
+    {
+      "BotOptions": {
+        "DiscordToken": "YOUR DISCORD TOKEN HERE"
+      },
+      "UwuOptions": {
+        "AppendUwu": true,
+        "MakeCuteCurses": true
+      }
+    }
+
+The following options are available to customize the UwU translation logic:
+
+|Option|Description|Default|
+|------|-----------|-------|
+|AppendUwu|Appends a trailing "UwU!" to the text.|`true`|
+|MakeCuteCurses|Replaces curse words with cuter, more UwU versions.|`true`|
+
 ### Discord Requirements (OAuth2)
 To join the bot to a server, you must grant permissions integer `2048`. This consists of:
 * `bot` scope
