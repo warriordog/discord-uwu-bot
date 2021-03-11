@@ -107,7 +107,7 @@ namespace DiscordUwuBot.Bot.Command
         }
 
         [Command("me")]
-        [Description("Follow you and UwUify everything you say")]
+        [Description("Follow you in the current channel")]
         public async Task MeCommand(CommandContext ctx)
         {
             // Setup logging context
@@ -146,7 +146,7 @@ namespace DiscordUwuBot.Bot.Command
 
         [Command("stop")]
         [Description("Stop following you")]
-        public async Task StopUserCommand(CommandContext ctx, string destination = "here")
+        public async Task StopUserCommand(CommandContext ctx, string where = "channel")
         {
             // Setup logging context
             using (_logger.BeginScope($"StopUserCommand@{ctx.Message.Id.ToString()}"))
@@ -156,7 +156,7 @@ namespace DiscordUwuBot.Bot.Command
                     _logger.LogDebug("Invoked by [{user}]", ctx.User);
 
                     // Stop in current channel
-                    switch (destination.ToLower())
+                    switch (where.ToLower())
                     {
                         case "":
                         case "here":
@@ -176,7 +176,7 @@ namespace DiscordUwuBot.Bot.Command
                             
                         default:
                             await new DiscordMessageBuilder()
-                                .WithContent($"Unknown parameter '{destination}' - valid values are 'here', 'server', and 'everywhere'.")
+                                .WithContent($"Unknown parameter '{where}' - valid values are 'here', 'server', and 'everywhere'.")
                                 .WithReply(ctx.Message.Id)
                                 .SendAsync(ctx.Channel);
                             break;
@@ -238,8 +238,8 @@ namespace DiscordUwuBot.Bot.Command
 
         [Command("stop_everyone")]
         [RequireUserPermissions(Permissions.ManageMessages)]
-        [Description("Stop following everyone")]
-        public async Task StopEveryoneCommand(CommandContext ctx, string destination = "here")
+        [Description("Stop following everyone in this channel or server")]
+        public async Task StopEveryoneCommand(CommandContext ctx, string where = "channel")
         {
             // Setup logging context
             using (_logger.BeginScope($"StopEveryoneCommand@{ctx.Message.Id.ToString()}"))
@@ -249,7 +249,7 @@ namespace DiscordUwuBot.Bot.Command
                     _logger.LogDebug("Invoked by [{user}]", ctx.User);
 
                     // Stop in current channel
-                    switch (destination.ToLower())
+                    switch (where.ToLower())
                     {
                         case "":
                         case "here":
@@ -263,7 +263,7 @@ namespace DiscordUwuBot.Bot.Command
                             
                         default:
                             await new DiscordMessageBuilder()
-                                .WithContent($"Unknown parameter '{destination}' - valid values are 'here' and 'server'.")
+                                .WithContent($"Unknown parameter '{where}' - valid values are 'here' and 'server'.")
                                 .WithReply(ctx.Message.Id)
                                 .SendAsync(ctx.Channel);
                             break;
@@ -298,7 +298,7 @@ namespace DiscordUwuBot.Bot.Command
 
         [Command("them")]
         [RequireUserPermissions(Permissions.ManageMessages)]
-        [Description("Follow someone else")]
+        [Description("Follow a member in this channel")]
         public async Task ThemCommand(CommandContext ctx, DiscordUser user)
         {
             // Setup logging context

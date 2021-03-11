@@ -11,6 +11,10 @@ A Discord bot that translates regular text into UwU-speak.
 ### Commands
 * `uwu*that` - Uwuify a message in chat. Reply to a message to uwuifiy it.
 * `uwu*this` - Uwuify text. The rest of the message will be uwuified.
+* `uwu*me` - Follow the sender and translate everything that they say in the current channel.
+* `uwu*stop [where]` - Stop following the sender. Optionally set `where` to "channel", "server", or "everywhere" to stop following in the current channel, current server, or in all of Discord, respectively. Defaults to "channel".
+* `uwu*stop_everyone [where]` - Stop following everyone in the current channel or server. Optionally set `where` to "channel" or "server" to specify where to stop following. Defaults to "channel". Requires "Manage Messages" permission.
+* `uwu*them <user>` - Follow a specified user and translate everything that they say in the current channel. Requires "Manage Messages" permission. Use the command again to stop following.
 
 ### Configuration
 The bot can be configured through a JSON configuration file, located at `/opt/UwuBot/appsettings.Production.json` by default.
