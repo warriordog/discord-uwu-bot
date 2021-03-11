@@ -6,6 +6,7 @@ using DiscordUwuBot.UwU;
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using Microsoft.Extensions.Logging;
 
 namespace DiscordUwuBot.Bot
 {
@@ -26,10 +27,12 @@ namespace DiscordUwuBot.Bot
         private readonly Dictionary<FollowedUser, DateTime> _followedUsers = new();
         private readonly TimeSpan _remindInterval = new(0, 15, 0);
         private readonly ITextUwuifier _textUwuifier;
+        private readonly ILogger<UwuRepeater> _logger;
 
-        public UwuRepeater(ITextUwuifier textUwuifier)
+        public UwuRepeater(ITextUwuifier textUwuifier, ILogger<UwuRepeater> logger)
         {
             _textUwuifier = textUwuifier;
+            _logger = logger;
         }
 
         public async Task OnMessageCreated(DiscordClient discord, MessageCreateEventArgs evt)
@@ -58,6 +61,8 @@ namespace DiscordUwuBot.Bot
                     .WithContent(uwuText)
                     .WithReply(evt.Message.Id)
                     .SendAsync(evt.Channel);
+                
+                _logger.LogDebug("Translating message from followed user [{user}]", evt.Author);
             }
         }
 
