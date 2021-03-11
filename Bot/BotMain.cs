@@ -31,7 +31,7 @@ namespace DiscordUwuBot.Bot
         private readonly DiscordClient        _discord;
         private readonly ILogger<BotMain>     _logger;
 
-        public BotMain(IServiceProvider serviceProvider, ILoggerFactory loggerFactory, IOptions<BotOptions> botOptions, ILogger<BotMain> logger)
+        public BotMain(IServiceProvider serviceProvider, ILoggerFactory loggerFactory, IOptions<BotOptions> botOptions, ILogger<BotMain> logger, IUwuRepeater uwuRepeater)
         {
             _logger = logger;
             var options = botOptions.Value;
@@ -58,11 +58,14 @@ namespace DiscordUwuBot.Bot
                 .RegisterCommands<UwuCommandModule>();
             
             // Log when bot joins a server.
-            _discord.GuildCreated += (d, e) =>
+            _discord.GuildCreated += (_, e) =>
             {
                 _logger.LogInformation($"Joined server {e.Guild.Id} ({e.Guild.Name})");
                 return Task.CompletedTask;
             };
+            
+            // Listen to all chat and UwU anyone who has asked to be followed
+            _discord.MessageCreated += uwuRepeater.OnMessageCreated;
         }
 
         public async Task StartAsync()

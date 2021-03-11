@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace DiscordUwuBot.Main
 {
-    class Program
+    internal static class Program
     {
         public static async Task Main(string[] args)
         {
@@ -33,11 +33,12 @@ namespace DiscordUwuBot.Main
                         .Bind(ctx.Configuration.GetSection(nameof(UwuOptions)))
                         .ValidateDataAnnotations();
 
-                    // Inject UwU logic (this is needed to make sure that the constructor is called)
+                    // Inject UwU logic
                     services.AddScoped<IUwuRules, UwuRules>();
                     services.AddScoped<ITextUwuifier, TextUwuifier>();
                         
                     // Inject discord bot logic
+                    services.AddScoped<IUwuRepeater, UwuRepeater>();
                     services.AddScoped<BotMain>();
                     services.AddHostedService<BotService>();
                 }

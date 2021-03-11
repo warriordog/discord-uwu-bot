@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using DiscordUwuBot.Bot.Util;
 using DiscordUwuBot.UwU;
+using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
@@ -16,16 +17,19 @@ namespace DiscordUwuBot.Bot.Command
     {
         private readonly ILogger<UwuCommandModule> _logger;
         private readonly ITextUwuifier _textUwuifier;
-        
-        public UwuCommandModule(ILogger<UwuCommandModule> logger, ITextUwuifier textUwuifier)
+        private readonly IUwuRepeater _uwuRepeater;
+
+        public UwuCommandModule(ILogger<UwuCommandModule> logger, ITextUwuifier textUwuifier, IUwuRepeater uwuRepeater)
         {
             _logger = logger;
             _textUwuifier = textUwuifier;
+            _uwuRepeater = uwuRepeater;
         }
-        
+
         [Command("this")]
         [Description("Uwuifies text")]
-        public async Task ThisCommand(CommandContext ctx, [Description("Text to uwuify")][RemainingText] string text)
+        public async Task ThisCommand(CommandContext ctx, [Description("Text to uwuify")] [RemainingText]
+            string text)
         {
             // Setup logging context
             using (_logger.BeginScope($"ThisCommand@{ctx.Message.Id.ToString()}"))
@@ -33,14 +37,14 @@ namespace DiscordUwuBot.Bot.Command
                 try
                 {
                     _logger.LogDebug("Invoked by [{user}]", ctx.User);
-                    
+
                     // Skip if no text provided
                     if (string.IsNullOrWhiteSpace(text))
                     {
                         _logger.LogDebug("Skipping empty input");
                         return;
                     }
-                    
+
                     // Uwuify it
                     var uwuText = _textUwuifier.UwuifyText(text);
 
@@ -70,22 +74,22 @@ namespace DiscordUwuBot.Bot.Command
                     _logger.LogDebug("Invoked by [{user}]", ctx.User);
 
                     // Prevent infinite loops
-                    if (IsMessageLoop(ctx))
+                    if (MessageValidation.IsMessageLoop(ctx.Client.CurrentUser, ctx.Message))
                     {
                         _logger.LogDebug("Skipping message loop");
                         return;
                     }
-                    
+
                     // Get original message from reference
                     var text = ctx.Message.ReferencedMessage.Content;
-                    
+
                     // Skip if no text provided
                     if (string.IsNullOrWhiteSpace(text))
                     {
                         _logger.LogDebug("Skipping empty input");
                         return;
                     }
-                    
+
                     // Uwuify it
                     var uwuText = _textUwuifier.UwuifyText(text);
 
@@ -102,21 +106,68 @@ namespace DiscordUwuBot.Bot.Command
             }
         }
 
-        private static bool IsMessageLoop(CommandContext ctx)
+        [Command("me")]
+        [Description("Follow you and UwUify everything you say")]
+        public async Task MeCommand(CommandContext ctx)
         {
-            var currentUser = ctx.Client.CurrentUser;
-
-            for (var currentMessage = ctx.Message; currentMessage != null; currentMessage = currentMessage.Reference?.Message)
+            // Setup logging context
+            using (_logger.BeginScope($"MeCommand@{ctx.Message.Id.ToString()}"))
             {
-                // If we sent the message, then this is a loop
-                if (currentUser.Equals(currentMessage.Author))
+                try
                 {
-                    return true;
+                    _logger.LogDebug("Invoked by [{user}]", ctx.User);
+
+                    // Check if user is already being followed
+                    if (_uwuRepeater.IsUserFollowed(ctx.User, ctx.Channel))
+                    {
+                        _logger.LogDebug("Skipping - user is already followed.");
+                        await ctx.RespondAsync($"I'm already following you in this channel. Use {Formatter.InlineCode("uwu*stop")} to make me stop.");
+                    }
+
+                    // Start following
+                    _uwuRepeater.FollowUser(ctx.User, ctx.Channel);
+                    _logger.LogDebug("Started following user.");
+
+                    // Send response
+                    await ctx.RespondAsync($"I'm now following you and will translate everything you say in this channel. Use {Formatter.InlineCode("uwu*stop")} to make me stop.");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Uncaught exception");
                 }
             }
+        }
 
-            // If we get to the end without a match, then this is not a loop
-            return false;
+        [Command("stop")]
+        [Description("Stop following you")]
+        public async Task StopCommand(CommandContext ctx)
+        {
+            // Setup logging context
+            using (_logger.BeginScope($"StopCommand@{ctx.Message.Id.ToString()}"))
+            {
+                try
+                {
+                    _logger.LogDebug("Invoked by [{user}]", ctx.User);
+
+                    // Check if user is already being followed
+                    if (!_uwuRepeater.IsUserFollowed(ctx.User, ctx.Channel))
+                    {
+                        _logger.LogDebug("Skipping - user is not followed.");
+                        await ctx.RespondAsync($"I'm not following you in this channel.");
+                    }
+
+                    // Start following
+                    _uwuRepeater.UnfollowUser(ctx.User, ctx.Channel);
+                    _logger.LogDebug("Stopped following user.");
+
+                    // Send response
+                    await ctx.RespondAsync($"I'm no longer following you in this channel.");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Uncaught exception");
+                }
+            }
         }
     }
 }
