@@ -5,9 +5,14 @@
         <AssemblyName>DiscordUwuBot.Bot</AssemblyName>
         <RootNamespace>DiscordUwuBot.Bot</RootNamespace>
         <PackageId>DiscordUwuBot.Bot</PackageId>
-        <Title>DiscordUwuBot Discord Bot module</Title>
+        <Title>UwuBot Discord Client</Title>
         <Authors />
-        <PackageVersion>1.1.0</PackageVersion>
+        <PackageVersion>1.2.0</PackageVersion>
+        <Company>koehlercode</Company>
+        <Product>UwuBot</Product>
+        <AssemblyVersion>1.2.0</AssemblyVersion>
+        <IsPackable>false</IsPackable>
+        <NeutralLanguage>en-US</NeutralLanguage>
     </PropertyGroup>
 
     <ItemGroup>
