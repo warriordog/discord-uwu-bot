@@ -295,5 +295,46 @@ namespace DiscordUwuBot.Bot.Command
                 .WithReply(ctx.Message.Id)
                 .SendAsync(ctx.Channel);
         }
+
+        [Command("them")]
+        [RequireUserPermissions(Permissions.ManageMessages)]
+        [Description("Follow someone else")]
+        public async Task ThemCommand(CommandContext ctx, DiscordUser user)
+        {
+            // Setup logging context
+            using (_logger.BeginScope($"ThemCommand@{ctx.Message.Id.ToString()}"))
+            {
+                try
+                {
+                    _logger.LogDebug("Invoked by [{user}]", ctx.User);
+
+                    // Check if following
+                    if (_uwuRepeater.IsUserFollowed(user, ctx.Channel))
+                    {
+                        // Stop following user
+                        _logger.LogDebug("Unfollowing [{target}]", user);
+                        _uwuRepeater.UnfollowUser(user, ctx.Channel);
+                        await new DiscordMessageBuilder()
+                            .WithContent($"I'm no longer following { Formatter.Mention(user) } in this channel.")
+                            .WithReply(ctx.Message.Id)
+                            .SendAsync(ctx.Channel);  
+                    }
+                    else
+                    {
+                        // Follow user
+                        _logger.LogDebug("Following [{target}]", user);
+                        _uwuRepeater.FollowUser(user, ctx.Channel);
+                        await new DiscordMessageBuilder()
+                            .WithContent($"I'm now following { Formatter.Mention(user) } in this channel. Use this command again to make me stop.")
+                            .WithReply(ctx.Message.Id)
+                            .SendAsync(ctx.Channel);   
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Uncaught exception");
+                }
+            }
+        }
     }
 }
