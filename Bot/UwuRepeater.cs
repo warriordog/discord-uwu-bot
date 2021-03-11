@@ -10,16 +10,71 @@ using Microsoft.Extensions.Logging;
 
 namespace DiscordUwuBot.Bot
 {
+    /// <summary>
+    /// Module that repeats and uwuifies messages sent by certain followed users.
+    /// </summary>
     public interface IUwuRepeater
     {
+        /// <summary>
+        /// Process an incoming message posted to a channel
+        /// </summary>
+        /// <param name="discord">Discord client instance</param>
+        /// <param name="evt">MessageCreate event</param>
+        /// <returns>Returns a task that completes when the message is fully processed</returns>
         public Task OnMessageCreated(DiscordClient discord, MessageCreateEventArgs evt);
+        
+        /// <summary>
+        /// Begin following a user in a specified channel.
+        /// Duplicate follows will be ignored.
+        /// </summary>
+        /// <param name="user">User to follow</param>
+        /// <param name="channel">Channel to follow in</param>
         public void FollowUser(DiscordUser user, DiscordChannel channel);
+        
+        /// <summary>
+        /// Stop following a user in a specified channel.
+        /// Requests to unfollow a user who is not followed will be ignored.
+        /// </summary>
+        /// <param name="user">User to stop following</param>
+        /// <param name="channel">Channel to stop following in</param>
         public void UnfollowUser(DiscordUser user, DiscordChannel channel);
+        
+        /// <summary>
+        /// Stop following all users in all channels
+        /// </summary>
         public void ClearFollows();
+        
+        /// <summary>
+        /// Stop following a user in all channels
+        /// </summary>
+        /// <param name="user">User to stop following</param>
         public void ClearFollowsForUser(DiscordUser user);
+        
+        /// <summary>
+        /// Stop following a user in all channels in a specified guild
+        /// </summary>
+        /// <param name="user">User to stop following</param>
+        /// <param name="guild">Guild to stop following in</param>
         public void ClearFollowsForUserGuild(DiscordUser user, DiscordGuild guild);
+        
+        /// <summary>
+        /// Stop following all users in a channel
+        /// </summary>
+        /// <param name="channel">Channel to stop following in</param>
         public void ClearFollowsForChannel(DiscordChannel channel);
+        
+        /// <summary>
+        /// Stop following all users in all channels in a guild
+        /// </summary>
+        /// <param name="guild">Guild to stop following in</param>
         public void ClearFollowsForGuild(DiscordGuild guild);
+        
+        /// <summary>
+        /// Check if a user is followed in a specified channel
+        /// </summary>
+        /// <param name="user">User to check</param>
+        /// <param name="channel">Channel to check in</param>
+        /// <returns>Returns true if the user is followed in the channel</returns>
         public bool IsUserFollowed(DiscordUser user, DiscordChannel channel);
     }
     
@@ -46,7 +101,7 @@ namespace DiscordUwuBot.Bot
                 if (string.IsNullOrWhiteSpace(message)) return;
                 
                 // Stop if this is a message loop
-                if (MessageValidation.IsMessageLoop(discord.CurrentUser, evt.Message)) return;
+                if (MessageValidation.IsDeepReply(discord.CurrentUser, evt.Message)) return;
                 
                 // Create UwU message
                 var uwuText = _textUwuifier.UwuifyText(message);
