@@ -26,11 +26,14 @@ namespace DiscordUwuBot.Main
                 (ctx, services) =>
                 {
                     // Inject config
+                    services.AddOptions<DiscordAuthOptions>()
+                        .Bind(ctx.Configuration.GetSection("DiscordAuth"))
+                        .ValidateDataAnnotations();
                     services.AddOptions<BotOptions>()
-                        .Bind(ctx.Configuration.GetSection(nameof(BotOptions)))
+                        .Bind(ctx.Configuration.GetSection("BotOptions"))
                         .ValidateDataAnnotations();
                     services.AddOptions<UwuOptions>()
-                        .Bind(ctx.Configuration.GetSection(nameof(UwuOptions)))
+                        .Bind(ctx.Configuration.GetSection("UwuOptions"))
                         .ValidateDataAnnotations();
 
                     // Inject UwU logic

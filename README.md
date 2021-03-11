@@ -23,8 +23,10 @@ If you are using the the install script, then a default configuration file will 
 To create a configuration file manually, start with this template:
 
     {
-      "BotOptions": {
+      "DiscordAuth": {
         "DiscordToken": "YOUR DISCORD TOKEN HERE",
+      },
+      "BotOptions": {
         "CommandPrefixes": [ "uwu*" ]
       },
       "UwuOptions": {

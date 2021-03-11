@@ -12,9 +12,9 @@ using Microsoft.Extensions.Options;
 namespace DiscordUwuBot.Bot
 {
     /// <summary>
-    /// Configuration options for the bot
+    /// Discord authentication options
     /// </summary>
-    public class BotOptions
+    public class DiscordAuthOptions
     {
         /// <summary>
         /// Discord API authentication token
@@ -22,7 +22,13 @@ namespace DiscordUwuBot.Bot
         [Required]
         [NotNull]
         public string DiscordToken { get; init; }
-        
+    }
+    
+    /// <summary>
+    /// Configuration options for the bot
+    /// </summary>
+    public class BotOptions
+    {
         /// <summary>
         /// List of prefixes for discord commands
         /// </summary>
@@ -39,16 +45,15 @@ namespace DiscordUwuBot.Bot
         private readonly DiscordClient        _discord;
         private readonly ILogger<BotMain>     _logger;
 
-        public BotMain(IServiceProvider serviceProvider, ILoggerFactory loggerFactory, IOptions<BotOptions> botOptions, ILogger<BotMain> logger, IUwuRepeater uwuRepeater)
+        public BotMain(IServiceProvider serviceProvider, ILoggerFactory loggerFactory, IOptions<DiscordAuthOptions> authOptions, IOptions<BotOptions> botOptions, ILogger<BotMain> logger, IUwuRepeater uwuRepeater)
         {
             _logger = logger;
-            var options = botOptions.Value;
 
             // Create discord client
             _discord = new DiscordClient(
                 new DiscordConfiguration
                 {
-                    Token = options.DiscordToken,
+                    Token = authOptions.Value.DiscordToken,
                     TokenType = TokenType.Bot,
                     LoggerFactory = loggerFactory,
                     Intents = DiscordIntents.DirectMessages | DiscordIntents.GuildMessages | DiscordIntents.Guilds
@@ -59,7 +64,7 @@ namespace DiscordUwuBot.Bot
             _discord.UseCommandsNext(
                     new CommandsNextConfiguration
                     {
-                        StringPrefixes = options.CommandPrefixes,
+                        StringPrefixes = botOptions.Value.CommandPrefixes,
                         Services = serviceProvider
                     }
                 )
