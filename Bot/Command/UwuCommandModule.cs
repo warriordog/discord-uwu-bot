@@ -74,7 +74,7 @@ namespace DiscordUwuBot.Bot.Command
                     _logger.LogDebug("Invoked by [{user}]", ctx.User);
 
                     // Prevent infinite loops
-                    if (MessageValidation.IsMessageLoop(ctx.Client.CurrentUser, ctx.Message))
+                    if (MessageValidation.IsDeepReply(ctx.Client.CurrentUser, ctx.Message))
                     {
                         _logger.LogDebug("Skipping message loop");
                         return;
