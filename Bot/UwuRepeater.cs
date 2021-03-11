@@ -17,6 +17,7 @@ namespace DiscordUwuBot.Bot
         public void UnfollowUser(DiscordUser user, DiscordChannel channel);
         public void ClearFollows();
         public void ClearFollowsForUser(DiscordUser user);
+        public void ClearFollowsForUserGuild(DiscordUser user, DiscordGuild guild);
         public void ClearFollowsForChannel(DiscordChannel channel);
         public void ClearFollowsForGuild(DiscordGuild guild);
         public bool IsUserFollowed(DiscordUser user, DiscordChannel channel);
@@ -84,6 +85,11 @@ namespace DiscordUwuBot.Bot
         public void ClearFollowsForUser(DiscordUser user)
         {
             _followedUsers.RemoveWhere(entry => entry.Key.UserId == user.Id);
+        }
+
+        public void ClearFollowsForUserGuild(DiscordUser user, DiscordGuild guild)
+        {
+            _followedUsers.RemoveWhere(entry => entry.Key.UserId == user.Id && entry.Key.GuildId == guild.Id);
         }
 
         public void ClearFollowsForChannel(DiscordChannel channel)

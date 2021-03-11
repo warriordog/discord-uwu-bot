@@ -121,7 +121,10 @@ namespace DiscordUwuBot.Bot.Command
                     if (_uwuRepeater.IsUserFollowed(ctx.User, ctx.Channel))
                     {
                         _logger.LogDebug("Skipping - user is already followed.");
-                        await ctx.RespondAsync($"I'm already following you in this channel. Use {Formatter.InlineCode("uwu*stop")} to make me stop.");
+                        await new DiscordMessageBuilder()
+                            .WithContent($"I'm already following you in this channel. Use {Formatter.InlineCode("uwu*stop")} to make me stop.")
+                            .WithReply(ctx.Message.Id)
+                            .SendAsync(ctx.Channel);
                     }
 
                     // Start following
@@ -129,7 +132,10 @@ namespace DiscordUwuBot.Bot.Command
                     _logger.LogDebug("Started following user.");
 
                     // Send response
-                    await ctx.RespondAsync($"I'm now following you and will translate everything you say in this channel. Use {Formatter.InlineCode("uwu*stop")} to make me stop.");
+                    await new DiscordMessageBuilder()
+                        .WithContent($"I'm now following you and will translate everything you say in this channel. Use {Formatter.InlineCode("uwu*stop")} to make me stop.")
+                        .WithReply(ctx.Message.Id)
+                        .SendAsync(ctx.Channel);
                 }
                 catch (Exception ex)
                 {
@@ -140,34 +146,154 @@ namespace DiscordUwuBot.Bot.Command
 
         [Command("stop")]
         [Description("Stop following you")]
-        public async Task StopCommand(CommandContext ctx)
+        public async Task StopUserCommand(CommandContext ctx, string destination = "here")
         {
             // Setup logging context
-            using (_logger.BeginScope($"StopCommand@{ctx.Message.Id.ToString()}"))
+            using (_logger.BeginScope($"StopUserCommand@{ctx.Message.Id.ToString()}"))
             {
                 try
                 {
                     _logger.LogDebug("Invoked by [{user}]", ctx.User);
 
-                    // Check if user is already being followed
-                    if (!_uwuRepeater.IsUserFollowed(ctx.User, ctx.Channel))
+                    // Stop in current channel
+                    switch (destination.ToLower())
                     {
-                        _logger.LogDebug("Skipping - user is not followed.");
-                        await ctx.RespondAsync($"I'm not following you in this channel.");
+                        case "":
+                        case "here":
+                        case "channel":
+                            await StopUserChannel(ctx);
+                            break;
+                            
+                        case "server":
+                            await StopUserServer(ctx);
+                            break;
+                            
+                        case "everywhere":
+                        case "global":
+                        case "discord":
+                            await StopUserGlobal(ctx);
+                            break;
+                            
+                        default:
+                            await new DiscordMessageBuilder()
+                                .WithContent($"Unknown parameter '{destination}' - valid values are 'here', 'server', and 'everywhere'.")
+                                .WithReply(ctx.Message.Id)
+                                .SendAsync(ctx.Channel);
+                            break;
                     }
-
-                    // Start following
-                    _uwuRepeater.UnfollowUser(ctx.User, ctx.Channel);
-                    _logger.LogDebug("Stopped following user.");
-
-                    // Send response
-                    await ctx.RespondAsync($"I'm no longer following you in this channel.");
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Uncaught exception");
                 }
             }
+        }
+
+        private async Task StopUserChannel(CommandContext ctx)
+        {
+            _logger.LogDebug("In StopUserHere");
+            
+            // Check if user is already being followed
+            if (!_uwuRepeater.IsUserFollowed(ctx.User, ctx.Channel))
+            {
+                _logger.LogDebug("Skipping - user is not followed.");
+                await new DiscordMessageBuilder()
+                    .WithContent("I'm not following you in this channel.")
+                    .WithReply(ctx.Message.Id)
+                    .SendAsync(ctx.Channel);
+            }
+            else
+            {
+                // Stop following
+                _uwuRepeater.UnfollowUser(ctx.User, ctx.Channel);
+                _logger.LogDebug("Stopped following user.");
+
+                // Send response
+                await new DiscordMessageBuilder()
+                    .WithContent("I'm no longer following you in this channel.")
+                    .WithReply(ctx.Message.Id)
+                    .SendAsync(ctx.Channel);
+            }
+        }
+
+        private async Task StopUserServer(CommandContext ctx)
+        {
+            _logger.LogDebug("Stopped following in server");
+            _uwuRepeater.ClearFollowsForUserGuild(ctx.User, ctx.Guild);
+            await new DiscordMessageBuilder()
+                .WithContent("I'm no longer following you in this server.")
+                .WithReply(ctx.Message.Id)
+                .SendAsync(ctx.Channel);
+        }
+
+        private async Task StopUserGlobal(CommandContext ctx)
+        {
+            _logger.LogDebug("Stopped following globally");
+            _uwuRepeater.ClearFollowsForUser(ctx.User);
+            await new DiscordMessageBuilder()
+                .WithContent("I'm no longer following you anywhere on Discord.")
+                .WithReply(ctx.Message.Id)
+                .SendAsync(ctx.Channel);
+        }
+
+        [Command("stop_everyone")]
+        [RequireUserPermissions(Permissions.ManageMessages)]
+        [Description("Stop following everyone")]
+        public async Task StopEveryoneCommand(CommandContext ctx, string destination = "here")
+        {
+            // Setup logging context
+            using (_logger.BeginScope($"StopEveryoneCommand@{ctx.Message.Id.ToString()}"))
+            {
+                try
+                {
+                    _logger.LogDebug("Invoked by [{user}]", ctx.User);
+
+                    // Stop in current channel
+                    switch (destination.ToLower())
+                    {
+                        case "":
+                        case "here":
+                        case "channel":
+                            await StopEveryoneChannel(ctx);
+                            break;
+                            
+                        case "server":
+                            await StopEveryoneServer(ctx);
+                            break;
+                            
+                        default:
+                            await new DiscordMessageBuilder()
+                                .WithContent($"Unknown parameter '{destination}' - valid values are 'here' and 'server'.")
+                                .WithReply(ctx.Message.Id)
+                                .SendAsync(ctx.Channel);
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Uncaught exception");
+                }
+            }
+        }
+
+        private async Task StopEveryoneChannel(CommandContext ctx)
+        {
+            _uwuRepeater.ClearFollowsForChannel(ctx.Channel);
+            _logger.LogDebug("Stopped following everyone in channel.");
+            await new DiscordMessageBuilder()
+                .WithContent("I'm no longer following anyone in this channel.")
+                .WithReply(ctx.Message.Id)
+                .SendAsync(ctx.Channel);
+        }
+
+        private async Task StopEveryoneServer(CommandContext ctx)
+        {
+            _uwuRepeater.ClearFollowsForGuild(ctx.Guild);
+            _logger.LogDebug("Stopped following everyone in server.");
+            await new DiscordMessageBuilder()
+                .WithContent("I'm no longer following anyone in this server.")
+                .WithReply(ctx.Message.Id)
+                .SendAsync(ctx.Channel);
         }
     }
 }
