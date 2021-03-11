@@ -24,7 +24,8 @@ To create a configuration file manually, start with this template:
 
     {
       "BotOptions": {
-        "DiscordToken": "YOUR DISCORD TOKEN HERE"
+        "DiscordToken": "YOUR DISCORD TOKEN HERE",
+        "CommandPrefixes": [ "uwu*" ]
       },
       "UwuOptions": {
         "AppendUwu": true,
@@ -32,12 +33,13 @@ To create a configuration file manually, start with this template:
       }
     }
 
-The following options are available to customize the UwU translation logic:
+The following options are available to customize the bot behavior:
 
 |Option|Description|Default|
 |------|-----------|-------|
-|AppendUwu|Appends a trailing "UwU!" to the text.|`true`|
-|MakeCuteCurses|Replaces curse words with cuter, more UwU versions.|`true`|
+|BotOptions:CommandPrefixes|List of command prefixes to respond to.|`[ "uwu*" ]`|
+|UwuOptions:AppendUwu|Appends a trailing "UwU!" to the text.|`true`|
+|UwuOptions:MakeCuteCurses|Replaces curse words with cuter, more UwU versions.|`true`|
 
 ### Discord Requirements (OAuth2)
 To join the bot to a server, you must grant permissions integer `2048`. This consists of:

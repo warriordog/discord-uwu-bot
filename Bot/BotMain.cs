@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -21,6 +22,13 @@ namespace DiscordUwuBot.Bot
         [Required]
         [NotNull]
         public string DiscordToken { get; init; }
+        
+        /// <summary>
+        /// List of prefixes for discord commands
+        /// </summary>
+        [MinLength(1)]
+        [NotNull]
+        public IEnumerable<string> CommandPrefixes { get; init; } 
     }
     
     /// <summary>
@@ -51,7 +59,7 @@ namespace DiscordUwuBot.Bot
             _discord.UseCommandsNext(
                     new CommandsNextConfiguration
                     {
-                        StringPrefixes = new[] {"uwu*"},
+                        StringPrefixes = options.CommandPrefixes,
                         Services = serviceProvider
                     }
                 )
