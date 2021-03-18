@@ -1,7 +1,25 @@
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Options;
 
 namespace DiscordUwuBot.UwU
 {
+    /// <summary>
+    /// Settings to configure the UwU translation.
+    /// </summary>
+    public class UwuOptions
+    {
+        /// <summary>
+        /// If true (default), append a trailing "UwU!" to the text.
+        /// </summary>
+        public bool AppendUwu { get; init; } = true;
+        
+        /// <summary>
+        /// If true (default), make curse words cuter.
+        /// </summary>
+        public bool MakeCuteCurses { get; init; } = true;
+    }
+    
     /// <summary>
     /// Converts text into UwU-speak
     /// </summary>
@@ -44,14 +62,14 @@ namespace DiscordUwuBot.UwU
         /// <summary>
         /// Collection of <see cref="TextTransformation"/> that are applied to transform English text into UwU-speak.
         /// </summary>
-        private IUwuRules UwuRules { get; }
+        private IEnumerable<TextTransformation> UwuTransformations { get; }
         
-        public TextUwuifier(IUwuRules uwuRules)
+        public TextUwuifier(IOptionsSnapshot<UwuOptions> uwuOptions)
         {
-            UwuRules = uwuRules;
+            UwuTransformations = UwuRules.BuildUwuTransformations(uwuOptions.Value);
         }        
         
-        public string UwuifyText(string text) => UwuRules.UwuTransformations.Aggregate(text, 
+        public string UwuifyText(string text) => UwuTransformations.Aggregate(text, 
         (current, replacement) => replacement.MatchRegex.Replace(current, replacement.MatchReplacer)
         );
     }

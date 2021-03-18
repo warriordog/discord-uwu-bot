@@ -37,7 +37,6 @@ namespace DiscordUwuBot.Main
                         .ValidateDataAnnotations();
 
                     // Inject UwU logic
-                    services.AddScoped<IUwuRules, UwuRules>();
                     services.AddScoped<ITextUwuifier, TextUwuifier>();
                         
                     // Inject discord bot logic
