@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <RootNamespace>DiscordUwuBot.Main</RootNamespace>
         <AssemblyName>DiscordUwuBot.Main</AssemblyName>
         <PackageId>DiscordUwuBot.Main</PackageId>
@@ -19,6 +19,8 @@
       <PackageVersion>1.4.0</PackageVersion>
       <AssemblyVersion>1.3.0</AssemblyVersion>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <LangVersion>default</LangVersion>
+      <Nullable>enable</Nullable>
   </PropertyGroup>
 
     <ItemGroup>

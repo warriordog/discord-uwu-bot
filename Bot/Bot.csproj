@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <AssemblyName>DiscordUwuBot.Bot</AssemblyName>
         <RootNamespace>DiscordUwuBot.Bot</RootNamespace>
         <PackageId>DiscordUwuBot.Bot</PackageId>
@@ -13,11 +13,13 @@
         <AssemblyVersion>1.4.0</AssemblyVersion>
         <IsPackable>false</IsPackable>
         <NeutralLanguage>en-US</NeutralLanguage>
+        <LangVersion>default</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="DSharpPlus" Version="4.0.0-nightly-00810" />
-      <PackageReference Include="DSharpPlus.CommandsNext" Version="4.0.0-nightly-00810" />
+      <PackageReference Include="DSharpPlus" Version="4.4.2" />
+      <PackageReference Include="DSharpPlus.CommandsNext" Version="4.4.2" />
       <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
     </ItemGroup>
 

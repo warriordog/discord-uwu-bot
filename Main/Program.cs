@@ -4,22 +4,22 @@ using DiscordUwuBot.UwU;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace DiscordUwuBot.Main
+namespace DiscordUwuBot.Main;
+
+internal static class Program
 {
-    internal static class Program
+    public static async Task Main(string[] args)
     {
-        public static async Task Main(string[] args)
-        {
-            // Create environment
-            using var host = CreateHost(args);
+        // Create environment
+        using var host = CreateHost(args);
 
-            // Run application
-            await host.RunAsync();
-        }
+        // Run application
+        await host.RunAsync();
+    }
 
-        private static IHost CreateHost(string[] args) =>
-            // Apply default host settings
-            Host.CreateDefaultBuilder(args)
+    private static IHost CreateHost(string[] args) =>
+        // Apply default host settings
+        Host.CreateDefaultBuilder(args)
                 
             // Configure DI
             .ConfigureServices(
@@ -48,5 +48,4 @@ namespace DiscordUwuBot.Main
             
             // Create the host
             .Build();
-    }
 }

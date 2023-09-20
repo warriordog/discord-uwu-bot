@@ -2,11 +2,11 @@
 A Discord bot that translates regular text into UwU-speak.
 
 ### Examples
-|English|UwU|
-|-------|---|
-|Hello, world!|Hewlo, wowld! UwU!|
-|Lorem ipsum dolar sit amet|Lowem ipsum dolaw sit amet UwU!|
-|I'll have you know I graduated top of my class in the Navy Seals|I'wl have you knyow I gwawduatewd top of my class in dwe Nyavy Seals UwU!|
+| English                                                          | UwU                                                                       |
+|------------------------------------------------------------------|---------------------------------------------------------------------------|
+| Hello, world!                                                    | Hewlo, wowld! UwU!                                                        |
+| Lorem ipsum dolar sit amet                                       | Lowem ipsum dolaw sit amet UwU!                                           |
+| I'll have you know I graduated top of my class in the Navy Seals | I'wl have you knyow I gwawduatewd top of my class in dwe Nyavy Seals UwU! |
 
 ### Commands
 * `uwu*that` - Uwuify a message in chat. Reply to a message to uwuifiy it.
@@ -37,11 +37,11 @@ To create a configuration file manually, start with this template:
 
 The following options are available to customize the bot behavior:
 
-|Option|Description|Default|
-|------|-----------|-------|
-|BotOptions:CommandPrefixes|List of command prefixes to respond to.|`[ "uwu*" ]`|
-|UwuOptions:AppendUwu|Appends a trailing "UwU!" to the text.|`true`|
-|UwuOptions:MakeCuteCurses|Replaces curse words with cuter, more UwU versions.|`true`|
+| Option                     | Description                                         | Default      |
+|----------------------------|-----------------------------------------------------|--------------|
+| BotOptions:CommandPrefixes | List of command prefixes to respond to.             | `[ "uwu*" ]` |
+| UwuOptions:AppendUwu       | Appends a trailing "UwU!" to the text.              | `true`       |
+| UwuOptions:MakeCuteCurses  | Replaces curse words with cuter, more UwU versions. | `true`       |
 
 ### Discord Requirements (OAuth2)
 To join the bot to a server, you must grant permissions integer `2048`. This consists of:
@@ -49,7 +49,7 @@ To join the bot to a server, you must grant permissions integer `2048`. This con
 * `Send Messages` permission
 
 ### System Requirements
-* .NET 5+
+* .NET 7+
 * Windows, Linux, or MacOS. A version of Linux with SystemD (such as Ubuntu) is required to use the built-in install script and service definition.
 
 ### Setup
@@ -63,7 +63,7 @@ For Ubuntu (or other SystemD-based Linux systems), an install script and service
 4. Run `sudo systemctl start uwubot` to start the bot.
 
 #### Other OS
-For non-Ubuntu systems, manual setup is required. The steps below are the bare minimum to run the bot, and do not incude steps needed to create a persistent service.
+For non-Ubuntu systems, manual setup is required. The steps below are the bare minimum to run the bot, and do not include steps needed to create a persistent service.
 1. Compile the bot or download pre-built binaries.
 2. Edit `appsettings.Production.json` and add your Discord token.
 3. Run `dotnet DiscordUwuBot.Main.dll` to start the bot.
