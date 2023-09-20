@@ -7,7 +7,7 @@
         <PackageId>DiscordUwuBot.Bot</PackageId>
         <Title>UwuBot Discord Client</Title>
         <Authors />
-        <PackageVersion>1.3.0</PackageVersion>
+        <PackageVersion>1.5.0</PackageVersion>
         <Company>koehlercode</Company>
         <Product>UwuBot</Product>
         <AssemblyVersion>1.4.0</AssemblyVersion>
