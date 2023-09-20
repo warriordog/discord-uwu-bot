@@ -53,7 +53,7 @@ public class BotMain
                 Token = authOptions.Value.DiscordToken,
                 TokenType = TokenType.Bot,
                 LoggerFactory = loggerFactory,
-                Intents = DiscordIntents.DirectMessages | DiscordIntents.GuildMessages | DiscordIntents.Guilds
+                Intents = DiscordIntents.DirectMessages | DiscordIntents.GuildMessages | DiscordIntents.Guilds | DiscordIntents.MessageContents
             }
         );
 
