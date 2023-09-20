@@ -47,6 +47,7 @@ The following options are available to customize the bot behavior:
 To join the bot to a server, you must grant permissions integer `2048`. This consists of:
 * `bot` scope
 * `Send Messages` permission
+
 You must also grant the "Message Content" intent in the Discord Developer Portal.
 
 ### System Requirements
