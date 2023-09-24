@@ -50,7 +50,7 @@ public static class UwuRules
         // Initialize the rules with defaults
         var transformations = new List<TextTransformation>()
         {
-            // Replace "ll" with "ww"
+            // Replace "ll" with "wl"
             new(new Regex("ll", RegexCI, DefaultTimeout), m => MatchCase(m.Value, "wl")),
 
             // Replace "r" with "w"
