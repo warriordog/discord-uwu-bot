@@ -51,7 +51,7 @@ To join the bot to a server, you must grant permissions integer `2048`. This con
 You must also grant the "Message Content" intent in the Discord Developer Portal.
 
 ### System Requirements
-* .NET 7+
+* .NET 6+
 * Windows, Linux, or MacOS. A version of Linux with SystemD (such as Ubuntu) is required to use the built-in install script and service definition.
 
 ### Setup

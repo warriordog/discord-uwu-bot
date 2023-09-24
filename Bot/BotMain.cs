@@ -15,11 +15,12 @@ namespace DiscordUwuBot.Bot;
 /// </summary>
 public class DiscordAuthOptions
 {
+
     /// <summary>
     /// Discord API authentication token
     /// </summary>
     [Required]
-    public required string DiscordToken { get; init; }
+    public string DiscordToken { get; init; } = "";
 }
     
 /// <summary>
@@ -31,7 +32,8 @@ public class BotOptions
     /// List of prefixes for discord commands
     /// </summary>
     [MinLength(1)]
-    public required IEnumerable<string> CommandPrefixes { get; init; } 
+    [Required]
+    public IList<string> CommandPrefixes { get; init; } = new List<string>();
 }
     
 /// <summary>

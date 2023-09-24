@@ -12,12 +12,12 @@ public class UwuOptions
     /// <summary>
     /// If true (default), append a trailing "UwU!" to the text.
     /// </summary>
-    public required bool AppendUwu { get; init; } = true;
+    public bool AppendUwu { get; init; } = true;
         
     /// <summary>
     /// If true (default), make curse words cuter.
     /// </summary>
-    public required bool MakeCuteCurses { get; init; } = true;
+    public bool MakeCuteCurses { get; init; } = true;
 }
     
 /// <summary>
