@@ -33,7 +33,7 @@ public class BotOptions
     /// </summary>
     [MinLength(1)]
     [Required]
-    public IList<string> CommandPrefixes { get; init; } = new List<string>();
+    public IEnumerable<string> CommandPrefixes { get; init; } = new List<string>();
 }
     
 /// <summary>
