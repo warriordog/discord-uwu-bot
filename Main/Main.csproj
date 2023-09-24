@@ -16,8 +16,8 @@
         <NeutralLanguage>en-US</NeutralLanguage>
       <UserSecretsId>2dd16b44-aebe-42f4-993b-3ae12b261cb3</UserSecretsId>
       <Authors>warriordog</Authors>
-      <PackageVersion>1.5.0</PackageVersion>
-      <AssemblyVersion>1.5.0</AssemblyVersion>
+      <PackageVersion>1.6.0</PackageVersion>
+      <AssemblyVersion>1.6.0</AssemblyVersion>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
       <LangVersion>default</LangVersion>
       <Nullable>enable</Nullable>

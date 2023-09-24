@@ -7,8 +7,8 @@
         <PackageId>DiscordUwuBot.UwU</PackageId>
         <Title>UwuBot UwU (logic) module</Title>
         <Description></Description>
-        <PackageVersion>1.5.0</PackageVersion>
-        <AssemblyVersion>1.5.0</AssemblyVersion>
+        <PackageVersion></PackageVersion>
+        <AssemblyVersion>1.6.0</AssemblyVersion>
         <Company>koehlercode</Company>
         <Product>UwuBot</Product>
         <IsPackable>false</IsPackable>
